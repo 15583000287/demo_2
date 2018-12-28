@@ -1,0 +1,95 @@
+Spring和SpringBoot的区别：
+    虽然Spring组件的代码是轻量级的，但它的配置是重量级的。
+
+SpringBoot的注解：
+@SpringBootApplication   SpringBoot核心注解，开启自动配置，表示当前类是SpringBoot的的引导类
+    包含以下注解：
+    @Target(ElementType.TYPE)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented   //表示生成文档的时候，包含注解注释
+    @Inherited //表示被此注解注解的类，继承它父类的注解
+    -----以上是四个元注解-------
+    @SpringBootConfiguration  //表示当前类是一个配置类
+        包含：元注解
+              @Configuration  //配置类注解(表示被注解的类是一个配置类)
+    @EnableAutoConfiguration //表示启用自动配置
+    //注解扫描(扫描范围为Application.java启动类所在包及其子包)
+    @ComponentScan(excludeFilters = {
+            @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
+            @Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
+
+    注：SpringBoot并不是不需要写配置或注解了，它只是将其进行了封装，使我们使用起来更方便。
+
+
+
+
+
+SpringBoot注意事项：
+    数据源使用application.yml文件配置(注意url后面是否正确)
+    格式：
+    spring:
+      datasource:
+        url: jdbc:mysql://localhost:3306/spring_boot?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+        username: root
+        password: 123
+
+单元测试：
+    https://blog.csdn.net/sz85850597/article/details/80427408
+    @RunWith(SpringRunner.class)
+    @SpringBootTest
+    public class LearnServiceTest {
+
+        @Autowired
+        private UserService userService;
+
+        @Test
+        public void getLearn(){
+            //测试
+        }
+    }
+
+
+过滤器配置：
+    1.新建一个XxxFilter 实现（implements）javax.servlet.Filter接口,并重写其中的方法
+    2.通过注解方式配置过滤器
+         在过滤器上添加WebFilter注解  @WebFilter(filterName = "sessionFilter",urlPatterns = {"/*"})
+         在启动类添加ServletComponentScan注解
+    2.通过过滤器注册配置类使用过滤器
+         @Configuration
+         public class WebComponent2Config {
+             @Bean
+             public FilterRegistrationBean someFilterRegistration1() {
+                 //新建过滤器注册类
+                 FilterRegistrationBean registration = new FilterRegistrationBean();
+                 // 添加我们写好的过滤器
+                 registration.setFilter( new SessionFilter());
+                 // 设置过滤器的URL模式
+                 registration.addUrlPatterns("/*");
+                 return registration;
+             }
+
+         }
+     3.设置过滤器执行顺序
+         a.配置无法设置顺序，但是可以通过过滤器名字的字典顺序实现顺序过滤（比如AFilter就会在BFilter前执行），显然这种方法看起来不怎么正经。
+         b.通过给注册类设置order，设置过滤器顺序(值越小执行优先级越高)
+         registration.setOrder(1);
+
+
+
+自定义property
+    1.配置在application.properties中
+        com.neo.title=纯洁的微笑
+        com.neo.description=分享生活和技术
+    2.自定义配置类
+         @Component
+         public class NeoProperties {
+            @Value("${com.neo.title}")
+            private String title;
+            @Value("${com.neo.description}")
+            private String description;
+
+            //省略getter settet方法
+         }
+
+
+       index:https://mp.weixin.qq.com/s?__biz=MzI4NDY5Mjc1Mg==&mid=2247483679&idx=1&sn=ce9ac5cdceac9e3abc1c10545401f2d4&chksm=ebf6d960dc81507667f3c1fc2c6ed445050a37309ff690b34e091d836a15e86d64a33f61d4f0&scene=21#wechat_redirect

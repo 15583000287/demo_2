@@ -1,0 +1,16 @@
+Index: SpringBootJPATest/src/main/java/cn/tedu/demo_1/controller/HelloController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- SpringBootJPATest/src/main/java/cn/tedu/demo_1/controller/HelloController.java	(revision d09534ddd2980c516b77168bcbb7551b152e9f73)
++++ SpringBootJPATest/src/main/java/cn/tedu/demo_1/controller/HelloController.java	(date 1545492795297)
+@@ -10,7 +10,7 @@
+     @GetMapping("/hello")
+     public  String  hello(){
+         System.out.print("进来了！");
+-        return "Hello Spring Boot !";
++        return "Hello  Spring  Boot !";
+     }
+ 
+     @GetMapping("/zero")
