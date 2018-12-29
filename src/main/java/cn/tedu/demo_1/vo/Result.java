@@ -2,6 +2,7 @@ package cn.tedu.demo_1.vo;
 
 import org.springframework.stereotype.Component;
 
+
 public class Result<T> {
     private Integer status = 1;
     private String msg;
