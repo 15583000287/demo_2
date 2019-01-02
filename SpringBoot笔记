@@ -172,6 +172,10 @@ log配置：
 
 
 数据库操作2：(MySQL + Mybatis)
+    1.添加spring boot 的 mybatis jar包依赖
+    2.配置数据源
+    3.启动类配置@MapperScan(basePackages = "cn.tedu.demo_1.repository") //或者在每个持久层接口添加@Mapper也可以
+    4.接口方法上使用对应注解写sql语句（@Select @Update ...）  //或者是使用传统xml映射文件
 
 
 
