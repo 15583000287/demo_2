@@ -144,7 +144,7 @@ log配置：
 
 
 
-数据库操作：(mysql + Spring Data JPA)
+数据库操作1：(MySQL + Spring Data JPA)
     1.添加jar包
          <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -166,6 +166,32 @@ log配置：
         spring.jpa.properties.hibernate.hbm2ddl.auto=update    (四个取值create  create-drop  update  validata)   update最常用
         spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect   主要是指定生成表名的存储引擎为InneoDB
         spring.jpa.show-sql= true 是否打印出自动生产的SQL，方便调试的时候查看
+
+    3.自定XxxRepository类继承JpaRepositoty<实体类型, ID类型>
+        Spring Data JPA 根据自动方法名生成sql语句
+
+
+数据库操作2：(MySQL + Mybatis)
+
+
+
+
+Thymeleaf模板
+
+Gradle 构建工具
+
+什么是WebJars
+    什么是WebJars？WebJars是将客户端（浏览器）资源（JavaScript，Css等）打成jar包文件，以对资源进行统一依赖管理。WebJars的jar包部署在Maven中央仓库上。
+    如何使用
+    1、 WebJars主官网 查找对于的组件，比如Vuejs
+    <dependency>
+        <groupId>org.webjars.bower</groupId>
+        <artifactId>vue</artifactId>
+        <version>1.0.21</version>
+    </dependency>
+    2、页面引入
+    <link th:href="@{/webjars/bootstrap/3.3.6/dist/css/bootstrap.css}" rel="stylesheet"></link>
+    就可以正常使用了！
 
 
 

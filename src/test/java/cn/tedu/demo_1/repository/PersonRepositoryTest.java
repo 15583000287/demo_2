@@ -8,13 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PersonRepositoryTest {
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Test
     public void  saveTest(){
@@ -25,6 +27,6 @@ public class PersonRepositoryTest {
 
     @Test
     public void findAllTest(){
-        Assert.assertEquals(7 ,personRepository.findAll().size());
+        Assert.assertEquals("28",userMapper.findAllOrderByAge().get(0).getAge());
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 //@SpringBootApplication(exclude = DataSourceAutoConfiguration.class) //启动类中配置数据源，也可以在properties中配置
 @SpringBootApplication
 @RestController
-@MapperScan(basePackages = "cn.tedu.demo_1.repository")
+@MapperScan(basePackages = "cn.tedu.demo_1.repository") //或者在每个持久层接口添加@Mapper也可以
 //@ServletComponentScan
 public class Demo1Application {
 

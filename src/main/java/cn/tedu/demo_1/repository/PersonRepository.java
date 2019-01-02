@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Spring Data JPA
+ */
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
     List<Person> findAll();

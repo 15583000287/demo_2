@@ -1,6 +1,7 @@
 package cn.tedu.demo_1.repository;
 
 import cn.tedu.demo_1.entity.User;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,11 @@ public class UserMapperTest {
         for(User user : users){
             System.err.println(user);
         }
+    }
+
+    @Test
+    public void findAllOrderByAgeTest(){
+        //Assert.assertEquals("28",userMapper.findAllOrderByAge().get(0).getAge());
+        System.out.println(userMapper.findAllOrderByAge().size());
     }
 }
