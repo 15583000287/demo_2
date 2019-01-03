@@ -49,7 +49,7 @@ SpringBoot注意事项：
     }
 
 
-过滤器配置：
+SpringBoot整合Filter：
     1.新建一个XxxFilter 实现（implements）javax.servlet.Filter接口,并重写其中的方法
     2.通过注解方式配置过滤器
          在过滤器上添加WebFilter注解  @WebFilter(filterName = "sessionFilter",urlPatterns = {"/*"})
@@ -73,6 +73,45 @@ SpringBoot注意事项：
          a.配置无法设置顺序，但是可以通过过滤器名字的字典顺序实现顺序过滤（比如AFilter就会在BFilter前执行），显然这种方法看起来不怎么正经。
          b.通过给注册类设置order，设置过滤器顺序(值越小执行优先级越高)
          registration.setOrder(1);
+
+
+ SpringBoot整合Servlet:
+    1.自定义XxxServelt继承HttpServlet，重写service方法(doGet,doPost)
+    2.通过注解配置Servlet
+        @WebServlet(name = "HelloServlet", urlPatterns = "/hello")
+    3.启动类上添加@ServletComponentScan 扫描组件，然后注册
+
+    配置类方式：
+        2、3步使用配置类完成(自定义类名，方法名，返回ServletRegistrationBean，设置参数)
+        @Configuration
+        public class WebServletConfig {
+            @Bean
+            public ServletRegistrationBean getServletRegistrationBean(){
+                ServletRegistrationBean bean = new ServletRegistrationBean(new HelloServlet());
+                bean.addUrlMappings("/helloworld"); //相当于urlPatterns = "/helloworld"
+                return bean;
+            }
+        }
+
+
+SpringBoot整合Listener:
+    1.新建自定义Listener类，实现任意监听器接口 如：ServletContextListener
+    2.添加注解@WebListener  //只用添加这个注解就行了，不需要设置其他的，因为原始xml中也只是简单配置<filter-class></filter-class>
+    3.启动类添加@ServletComponentScan  //扫描组建，并注册组件bean
+
+    方式二：
+     2、3通过配置类完成：
+     @Configuration   //表示是一个配置类
+     public class WebListenerConfig {
+         @Bean
+         public ServletListenerRegistrationBean getServletListenerRegistrationBean(){
+             ServletListenerRegistrationBean bean = new ServletListenerRegistrationBean(new MyListener());
+             return bean;
+         }
+     }
+
+
+
 
 
 
