@@ -190,7 +190,7 @@ log配置：
               UserEntity getOne(Long id);
 
     4.使用传统xml映射配置文件
-           a.指定mybatis基础配置文件和实体类映射文件地址
+           a.在application.properties文件中指定mybatis基础配置文件和实体类映射文件地址
                 mybatis.config-locations=classpath:mybatis/mybatis-config.xml  配置类的别名，不用写完全限定名了
                 mybatis.mapper-locations=classpath:mybatis/mapper/*.xml
            b.添加mybatis-config.xml与*.xml配置文件即可，详细见代码。
