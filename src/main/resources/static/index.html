@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+    </style>
+    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+    <form method="post">
+        U:<input name="username" placeholder="username"><br>
+        P:<input name="password" placeholder="password"><br>
+        验证码：<input name="captcha" id="cpatcha" style="width: 50px;"><img src="getCaptcha.jpg"><a href="#" id="change">看不清，换一张</a><br>
+        <input type="button" value="Login">
+    </form>
+    <script>
+        $("#change").click(function () {
+
+        });
+
+        function getCaptcha(){
+            $.ajax({
+                type: "GET",
+                url: "getCaptcha",
+                data: "cpatcha="+$("#cpatcha").val(),
+                dataType: "json",
+                success: function(data){
+                    $('#resText').empty();   //清空resText里面的所有内容
+                    var html = '';
+                    $.each(data, function(commentIndex, comment){
+                        html += '<div class="comment"><h6>' + comment['username']
+                            + ':</h6><p class="para"' + comment['content']
+                            + '</p></div>';
+                    });
+                    $('#resText').html(html);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
