@@ -49,6 +49,19 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- SpringBoot AOP -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- 定时任务 -->
+        <!-- SpringBoot Quartz -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+
         <!-- redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -78,5 +91,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>

@@ -21,6 +21,8 @@ public class UserLoginFileter implements Filter{
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         HttpServletResponse response = (HttpServletResponse)servletResponse;
         HttpSession session = request.getSession();
+        //跳过过滤器
+        session.setAttribute("username","root");
         if(session.getAttribute("username")  != null){
             //放行
             filterChain.doFilter(servletRequest, servletResponse);

@@ -1,3 +1,6 @@
+navigate: https://blog.csdn.net/u011961421/article/details/79416510
+
+
 Spring和SpringBoot的区别：
     虽然Spring组件的代码是轻量级的，但它的配置是重量级的。
 
@@ -22,6 +25,9 @@ SpringBoot的注解：
 
 
 
+SpringBoot properties使用：
+    https://blog.csdn.net/u012100371/article/details/78188541
+
 
 
 SpringBoot配置数据源注意事项：
@@ -32,6 +38,7 @@ SpringBoot配置数据源注意事项：
         url: jdbc:mysql://localhost:3306/spring_boot?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
         username: root
         password: 123
+
 
 
 多数据源的支持：//TODO
@@ -200,6 +207,133 @@ log配置：
             return new Result<Void>(0,"运行异常！");
         }
     }
+
+
+SpringBoot AOP使用:
+    @Aspect //表示一个切面类
+    @Component
+    public class HttpRequestAspect {
+        private static final Logger log = LoggerFactory.getLogger(HttpRequestAspect.class);
+        public static long startTime;
+        public static long endTime;
+
+        /**
+         * @Pointcut 横切点，表示哪些方法需要被横切
+         * 下面是切点表达式
+         */
+        //@Around("execution(* cn.tedu.store.service.impl.*.*(..))")
+        @Pointcut("execution(public * cn.tedu.demo_1.controller.HelloController.*(..))")
+        //切点签名
+        public void print(){
+            System.out.println("切点签名 print");
+        }
+
+        /*@Before注解表示在具体的方法之前执行*/
+        @Before("print()")
+        public void before(JoinPoint joinPoint) {
+            log.info("前置切面before……");
+            startTime = System.currentTimeMillis();
+        }
+
+        /*@After注解表示在方法执行之后执行*/
+        @After("print()")
+        public void after() {
+            endTime = System.currentTimeMillis() - startTime;
+            log.info("后置切面after……");
+        }
+
+        /*@AfterReturning注解用于获取方法的返回值*/
+        @AfterReturning(pointcut = "print()", returning = "object")
+        public void getAfterReturn(Object object) {
+            log.info("本次接口耗时={}ms", endTime); //日志输出{}占位符
+            log.info("afterReturning={}", object.toString());
+        }
+
+
+
+SpringBoot使用定时任务：
+    blog地址： https://blog.csdn.net/wqh8522/article/details/79224290
+    在线cron表达式生成：http://www.cronmaker.com/      站长工具：http://qqe2.com/cron/index
+
+    1.使用Spring Task方式简单实现
+        @Configuration
+        @EnableScheduling //开启定时任务
+        [@Async] //支持异步执行多个定时任务，需要配置
+        public class SchedulingConfig {
+            private final Logger logger = LoggerFactory.getLogger(getClass());
+
+            //@Scheduled(cron = "0 0/10 * * * ?") // 每10分钟执行一次
+            @Scheduled(fixedRate = 2000)
+            public void getToken() {
+                logger.info("getToken定时任务启动");
+            }
+
+            @Scheduled(fixedRate = 5000)
+            public void otherToken() {
+                logger.info("otherToken定时任务启动");
+            }
+        }
+
+    配置类：
+        /**
+         * Spring Tast异步任务配置
+         * 注： Tast类加上@Async注解 表明支持异步任务
+         */
+        @Configuration //表明该类是一个配置类
+        @EnableAsync //开启异步事件的支持
+        public class AsyncConfig {
+            /*
+        此处成员变量应该使用@Value从配置中读取
+         */
+            private int corePoolSize = 10;
+            private int maxPoolSize = 200;
+            private int queueCapacity = 10;
+
+            @Bean
+            public Executor tastExecutor(){
+                ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+                executor.setCorePoolSize(corePoolSize);
+                executor.setMaxPoolSize(maxPoolSize);
+                executor.setQueueCapacity(queueCapacity);
+                executor.initialize();
+                return executor;
+            }
+        }
+
+
+    2.整合Quartz
+        a.导入依赖
+          <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-quartz</artifactId>
+           </dependency>
+        b.自定义TestQuartz类，继承QuartzJobBean,重写抽象方法，重写的方法中执行我们的定时任务。
+            public class TestQuartz extends QuartzJobBean {
+                @Override
+                protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+                    System.out.println("Quartz Tast  " + new Date());
+                }
+            }
+        c.定义QuartzConfig配置类
+            @Configuration
+            public class QuartzConfig {
+                @Bean
+                public JobDetail testQuartzDetail(){
+                    return JobBuilder.newJob(TestQuartz.class).withIdentity("testQuartz").storeDurably().build();
+                }
+
+                @Bean
+                public Trigger testQuartzTrigger(){
+                    SimpleScheduleBuilder scheduleBuilder = SimpleScheduleBuilder.simpleSchedule()  //简单的计划
+                            .withIntervalInSeconds(2)  //以秒为间隔 设置时间周期
+                            .repeatForever(); //不断、永远重复
+                    return TriggerBuilder.newTrigger().forJob(testQuartzDetail())
+                            .withIdentity("testQuartz")
+                            .withSchedule(scheduleBuilder)
+                            .build();
+                }
+
+            }
 
 
 
