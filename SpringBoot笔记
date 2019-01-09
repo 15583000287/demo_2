@@ -140,6 +140,29 @@ SpringBoot整合Listener:
 
 
 
+SpringBoot中使用Interceptor：
+    1.自定义类XxxInterceptor实现HandlerInterceptor，重写方法，自定义类加@Compoent注解，表示被spring容器管理
+        @Component
+        public class MyInterceptor implements HandlerInterceptor {
+            @Override
+            public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+                System.out.println("自定义Interceprot...");
+                return false;
+            }
+            ...
+        }
+    2.在入口类的目录或者兄弟目录下创建一个类继承WebMvcConfigurer类并重写addInterceptors方法
+        @SpringBootConfiguration
+        public class MySpringMvcConfig implements WebMvcConfigurer {
+            @Autowired
+            private MyInterceptor myInterceptor;  //拦截器
+
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                // registry.addInterceptor(testInterceptor).addPathPatterns("/hello"); //注册拦截器，并添加黑名单（可以是List类型）
+                   registry.addInterceptor(testInterceptor).excludePathPatterns("/zero"); //白名单
+            }
+        }
 
 
 
@@ -274,7 +297,7 @@ SpringBoot使用定时任务：
             }
         }
 
-    配置类：
+    异步配置类：
         /**
          * Spring Tast异步任务配置
          * 注： Tast类加上@Async注解 表明支持异步任务
@@ -299,6 +322,13 @@ SpringBoot使用定时任务：
                 return executor;
             }
         }
+
+    说明：
+        @Scheduled 参数可以接受两种定时的设置，一种是我们常用的cron="*/6 * * * * ?",一种是 fixedRate = 6000，两种都表示每隔六秒打印一下内容。
+        fixedRate 说明
+        @Scheduled(fixedRate = 6000) ：上一次开始执行时间点之后6秒再执行
+        @Scheduled(fixedDelay = 6000) ：上一次执行完毕时间点之后6秒再执行
+        @Scheduled(initialDelay=1000, fixedRate=6000) ：第一次延迟1秒后执行，之后按fixedRate的规则每6秒执行一次
 
 
     2.整合Quartz
@@ -467,6 +497,53 @@ SpringBoot使用定时任务：
            ${} 直接做拼接操作，涉及表字段值用这个,有sql注入风险
 
 
+
+
+
+
+
+
+SpringBoot email(发送邮件):
+    Blog:https://mp.weixin.qq.com/s?__biz=MzI4NDY5Mjc1Mg==&mid=2247483722&idx=1&sn=5be558e8636687ff653a51c97f5ec0c4&chksm=ebf6d935dc8150231f7d2001f5d1e512a7df1f5325eb6e1857b2b3756560a20587ea92425250&scene=21#wechat_redirect
+
+    1.设置POP3/SMTP/IMAP， 勾选
+    2.设置授权码，授权码是用于登录第三方邮件客户端的专用密码。
+    3.properties配置文件中配置
+        #邮件配置
+        #邮箱服务器地址
+        spring.mail.host=smtp.163.com
+        #邮箱用户名
+        spring.mail.username=skwangxu@163.com
+        #此处指的是授权码，不是登录密码
+        spring.mail.password=wx18227327313
+        spring.mail.default-encoding=utf-8
+        #以谁来发送邮件
+        mail.fromMail.addr=skwangxu@163.com
+    4.实现发送
+        @RestController
+        public class EmailController {
+            @Autowired
+            private JavaMailSender javaMailSender;
+
+            @Value("${mail.fromMail.addr}") //从properties中获取属性值
+            private String from;
+
+            @GetMapping("send")
+            public String sendEmail(){
+                System.out.println(from);
+                SimpleMailMessage message = new SimpleMailMessage();
+                //发送者
+                message.setFrom(from);
+                //接收者
+                message.setTo("593464677@qq.com");
+                //主题(标题)
+                message.setSubject("放假通知!");
+                //内容
+                message.setText("2019年1月10日放假！");  //发送html，发送html格式源码
+                javaMailSender.send(message);
+                return  "send success!";
+            }
+        }
 
 
 

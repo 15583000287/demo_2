@@ -62,6 +62,19 @@
             <artifactId>spring-boot-starter-quartz</artifactId>
         </dependency>
 
+        <!-- SpringBoot Emai  邮件 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <!-- SpringBoot thymeleaf -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+
         <!-- redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
