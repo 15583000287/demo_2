@@ -1,43 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8" />
+    <!--屏幕和设备的屏幕保持一致，初始缩放为1:1，禁止用户缩放-->
+    <meta name="viewport" content="width=device-width,
+			initial-scale=1,user-scalable=no" />
+    <title>响应式图片</title>
+    <!--引入外部的bootstrap中的css文件-->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!--jQuery文件。务必在bootstrap.min.js 之前引入-->
+    <script src="bootstrap/js/jquery.min.js"></script>
+    <!--再引入bootstrap.min.js文件-->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
     <style>
+        img{
+            width: 50px;
+            height: 50px;
+        }
 
+        div[class*="col"]{
+            border: 1px solid red;
+        }
+
+        #nav_log{
+            padding: 10px;
+        }
+        #nav_right>a{
+            font-size: 20px;
+            color: gray;
+            line-height: 70px;
+            margin-left: 50px;
+        }
     </style>
-    <script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
 </head>
 <body>
-    <form method="post">
-        U:<input name="username" placeholder="username"><br>
-        P:<input name="password" placeholder="password"><br>
-        验证码：<input name="captcha" id="cpatcha" style="width: 50px;"><img src="getCaptcha.jpg"><a href="#" id="change">看不清，换一张</a><br>
-        <input type="button" value="Login">
-    </form>
-    <script>
-        $("#change").click(function () {
+    <div class="container-fluid" style="background: #e6e6e6">
+        <div class="row">
+            <!-- pc机，平板，手机显示设置 -->
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div id="nav_log">
+                    <img src="images/Koala.jpg">
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div id="nav_right">
+                    <a href="#"><span>登录</span></a>
+                    <a href="#"><span>注册</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        });
-
-        function getCaptcha(){
-            $.ajax({
-                type: "GET",
-                url: "getCaptcha",
-                data: "cpatcha="+$("#cpatcha").val(),
-                dataType: "json",
-                success: function(data){
-                    $('#resText').empty();   //清空resText里面的所有内容
-                    var html = '';
-                    $.each(data, function(commentIndex, comment){
-                        html += '<div class="comment"><h6>' + comment['username']
-                            + ':</h6><p class="para"' + comment['content']
-                            + '</p></div>';
-                    });
-                    $('#resText').html(html);
-                }
-            });
-        }
-    </script>
 </body>
 </html>

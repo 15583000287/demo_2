@@ -1,0 +1,14 @@
+Vue.js入门
+1.声明式渲染
+2.条件与循环
+3.处理用户输入
+    v-bind 特性被称为指令。指令带有前缀 v-，以表示它们是 Vue 提供的特殊特性
+    我们不仅可以把数据绑定到 DOM 文本或特性(属性)，还可以绑定到 DOM 结构(节点)
+
+    v-bind:title="message"      属性值绑定
+    v-if="seen"                 if判断
+    v-for="todo in todos"       for循环
+    v-on:click="reverseMessage" 事件绑定
+    v-model="message"           双向绑定
+
+4.组件化应用构建
