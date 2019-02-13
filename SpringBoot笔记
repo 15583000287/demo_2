@@ -60,8 +60,8 @@ SpringBoot配置数据源注意事项：
 
 单元测试：
     https://blog.csdn.net/sz85850597/article/details/80427408
-    @RunWith(SpringRunner.class)
-    @SpringBootTest
+    @RunWith(SpringRunner.class)  //SpringBoot与junit进行整合
+    @SpringBootTest //1.当前类为SpringBoot的测试类   2.加在SpringBoot启动类，启动SpringBoot
     public class LearnServiceTest {
 
         @Autowired
