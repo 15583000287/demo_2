@@ -187,7 +187,7 @@ SpringBoot中使用Interceptor：
 
 
 
-log配置：
+log配置：   参见：https://blog.csdn.net/flysun3344/article/details/80555746
     日志级别总共有TARCE < DEBUG < INFO < WARN < ERROR < FATAL
     1.配置输出的地址(绝对路径)
         logging.path=C:/Users/Administrator/Downloads/SpringBootJPATest2018.12.22-master
