@@ -54,14 +54,14 @@ SpringBoot @Value自定义参数：   https://blog.csdn.net/u012100371/article/d
 
 	       index:https://mp.weixin.qq.com/s?__biz=MzI4NDY5Mjc1Mg==&mid=2247483679&idx=1&sn=ce9ac5cdceac9e3abc1c10545401f2d4&chksm=ebf6d960dc81507667f3c1fc2c6ed445050a37309ff690b34e091d836a15e86d64a33f61d4f0&scene=21#wechat_redirect
 	
-	案例3：给静态变量赋值
-		@Value用于静态遍量上是无法给变量赋值的。
-		1.在类上面添加@Componet注解
-		2.给静态变量提供set方法，在set方法上添加@Value注解
-			@Value("${student.name}")
-			public void setName(String name){
-				name = name;
-			}
+    案例3：给静态变量赋值
+	@Value用于静态遍量上是无法给变量赋值的。
+	1.在类上面添加@Componet注解
+	2.给静态变量提供set方法，在set方法上添加@Value注解
+		@Value("${student.name}")
+		public void setName(String name){
+			name = name;
+		}
 		
 
 
