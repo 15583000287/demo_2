@@ -59,11 +59,12 @@ SpringBoot @Value自定义参数：   https://blog.csdn.net/u012100371/article/d
     案例3：给静态变量赋值
 	@Value用于静态遍量上是无法给变量赋值的。
 	1.在类上面添加@Componet注解
-	2.给静态变量提供set方法，在set方法上添加@Value注解
+	2.给静态变量提供set方法（set方法不能是静态的，加载顺序根据set方法先后顺序），在set方法上添加@Value注解
 		@Value("${student.name}")
 		public void setName(String name){
 			name = name;
 		}
+  案例4：server.port=${random.int[1000,1999]}  随机值用法
 		
 
 
